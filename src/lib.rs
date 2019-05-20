@@ -12,12 +12,10 @@
 //! #[macro_use]
 //! extern crate rocket_contrib;
 //! 
-//! use toql::sql_mapper::SqlMapperCache;
-//! use toql::rocket::{ToqlQuery, Counted};
+//! use toql_rocket::{ToqlQuery, Counted, Result, mysql::load_many, toql::sql_mapper::SqlMapperCache};
 //! use rocket::request::Form;
-//! use myql::Conn;
 //! use rocket_contrib::json::Json;
-//! use toql::rocket::mysql::load_many;
+//! use myql::Conn;
 //! 
 //! #[database("example_db")]
 //! struct ExampleDbConnection(mysql::Conn);
