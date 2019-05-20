@@ -10,7 +10,7 @@ Use [Toql](https://crates.io/crates/toql) with [Rocket](https://crates.io/crates
 
 
 ### Resources
-There is a  [CRUD example](https://github.com/roy-ganz/toql_rocket/blob/master/examples/crud_mysql/main.rs) and the [API documentation](https://docs.rs/toql_rocket/0.1/toql/)
+There is a  [CRUD example](https://github.com/roy-ganz/toql_rocket/blob/master/examples/crud_mysql/main.rs) and the [API documentation](https://docs.rs/toql_rocket/0.1).
 
 
 ### Installation
