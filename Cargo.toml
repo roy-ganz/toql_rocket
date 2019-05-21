@@ -1,13 +1,13 @@
 [package]
 name = "toql_rocket"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Artos <roy.ganz@glanis.biz>"]
 edition = "2018"
 description = "Rocket integration for toql"
-keywords = ["toql"]
+keywords = ["toql", "rocket"]
 readme = "README.md"
 license = "MIT/Apache-2.0"
-repository = "https://github.com/roy-ganz/toql"
+repository = "https://github.com/roy-ganz/toql_rocket"
 
 [dependencies]
 toql = { version = "0.1", path = "../toql" }
@@ -23,7 +23,6 @@ rocket = "0.4"
 rocket_contrib =  {version = "0.4", default-features = false, features = ["mysql_pool", "json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-#toql = { version = "0.1", path = "../toql", features= ["mysql"] }
 
 [[example]]
 name = "crud_mysql"

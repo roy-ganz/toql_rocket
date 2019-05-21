@@ -50,7 +50,7 @@ pub struct ToqlQuery {
 impl ToqlQuery {
 
     pub  fn and(mut self, query:Query) -> Self {
-        let x = self.query.unwrap_or(QueryWrapper(Query::wildcard())).0.and(query);
+        let x = self.query.unwrap_or(QueryWrapper(Query::wildcard())).0.parenthesize().and(query);
         self.query = Some(QueryWrapper(x));
         self
     }
