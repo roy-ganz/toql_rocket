@@ -12,7 +12,7 @@
 //! #[macro_use]
 //! extern crate rocket_contrib;
 //! 
-//! use toql_rocket::{ToqlQuery, Counted, Result, mysql::load_many, toql::sql_mapper::SqlMapperCache};
+//! use toql_rocket::{ToqlQuery, Counted, Result, mysql::load_many, toql::sql_mapper::SqlMapperRegistry};
 //! use rocket::request::Form;
 //! use rocket_contrib::json::Json;
 //! use myql::Conn;
@@ -23,7 +23,7 @@
 //! struct User {id:u64, username: Option<String>};
 //! 
 //! #[get("/?<toql..>")]
-//! fn query( mappers: State<SqlMapperCache>,
+//! fn query( mappers: State<SqlMapperRegistry>,
 //!               conn: ExampleDbConnection, 
 //!               toql: Form<ToqlQuery>)
 //! -> Result<Counted<Json<Vec<User>>>> {
@@ -42,6 +42,9 @@ pub mod query;
 pub mod error;
 
 
+#[macro_export]
+pub mod template;
+
 #[cfg(feature = "mysql")]
 pub mod mysql;
 
@@ -50,7 +53,3 @@ pub use query::ToqlQuery;
 pub use error::Result;
 
 pub use toql; // Reexport
-
-#[cfg(feature = "mysql")]
-pub use mysql::load_many;
-

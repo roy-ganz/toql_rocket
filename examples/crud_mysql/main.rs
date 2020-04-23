@@ -14,7 +14,7 @@ use toql_rocket::toql as toql;
 use toql::derive::Toql;
 use toql::query::Query;
 use toql::mysql::{delete_one, insert_one, update_one, load_one};
-use toql::sql_mapper::{SqlMapper, SqlMapperCache};
+use toql::sql_mapper::{SqlMapper, SqlMapperRegistry};
 
 // Here is our struct
 #[derive(Debug, Default, Serialize, Deserialize, PartialEq, Toql)]
@@ -47,7 +47,7 @@ pub fn delete<'a>(id: u64, conn: ExampleDbConnection) -> Result<Status> {
 pub fn update(
     id: u64,
     mut user: Json<User>,
-    mappers: State<SqlMapperCache>,
+    mappers: State<SqlMapperRegistry>,
     conn: ExampleDbConnection,
 ) -> Result<Json<User>> {
     let ExampleDbConnection(mut c) = conn;
@@ -62,7 +62,7 @@ pub fn update(
 #[post("/", data = "<user>")] // format = "application/json",
 pub fn create<'a>(
     user: Json<User>,
-    mappers: State<SqlMapperCache>,
+    mappers: State<SqlMapperRegistry>,
     conn: ExampleDbConnection,
 ) -> Result<Json<User>> {
     let ExampleDbConnection(mut c) = conn;
@@ -76,7 +76,7 @@ pub fn create<'a>(
 #[get("/<id>")]
 pub fn get(
     id: u64,
-    mappers: State<SqlMapperCache>,
+    mappers: State<SqlMapperRegistry>,
     conn: ExampleDbConnection,
 ) -> Result<Json<User>> {
     let ExampleDbConnection(mut c) = conn;
@@ -88,7 +88,7 @@ pub fn get(
 
 #[get("/?<toql..>")]
 pub fn query(
-    mappers: State<SqlMapperCache>,
+    mappers: State<SqlMapperRegistry>,
     conn: ExampleDbConnection,
     toql: Form<ToqlQuery>,
 ) -> Result<Counted<Json<Vec<User>>>> {
@@ -127,7 +127,7 @@ fn main() {
     println!("Delete a user with `curl -X DELETE localhost:8000/user/ID`");
     println!("--------------------------");
 
-    let mut mappers = SqlMapperCache::new();
+    let mut mappers = SqlMapperRegistry::new();
     SqlMapper::insert_new_mapper::<User>(&mut mappers);
 
     rocket::ignite()

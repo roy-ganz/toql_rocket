@@ -6,39 +6,16 @@ use rocket::Response;
 use rocket::Request;
 use std::io::Cursor;
 
- macro_rules! bad_request_template {
-    ($description:expr) => (
-        format!(r#"
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <title>400 Bad Request</title>
-            </head>
-            <body align="center">
-                <div align="center">
-                    <h1>400: Bad Request</h1>
-                    <p>Request failed, because {}.</p>
-                    <hr />
-                    <small>Rocket</small>
-                </div>
-            </body>
-            </html>
-        "#, $description
-        )
-    )
-}
+use crate::bad_request_template;
 
 
 /// A result with a [`ToqlError`](enum.ToqlError.html)
 pub type Result<T> = std::result::Result<T, ToqlErrorWrapper>;
 
-
-
 /// Wrapper for [ToqlError]
 /// Needed for trait implementation.
 #[derive(Debug)]
-pub struct ToqlErrorWrapper (ToqlError);
+pub struct ToqlErrorWrapper ( pub ToqlError);
 
 impl From<ToqlError> for ToqlErrorWrapper{
         fn from(err: ToqlError) -> ToqlErrorWrapper {
@@ -52,7 +29,6 @@ impl rocket::response::Responder<'static> for ToqlErrorWrapper {
     fn respond_to(self, _: &Request) -> std::result::Result<Response<'static>, Status> {
         let mut response = Response::new();
       
-
         match self.0 {
             ToqlError::NotFound => {
                 log::info!("No result found");

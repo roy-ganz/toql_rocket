@@ -19,7 +19,7 @@ impl<'r, R: Responder<'r>> Responder<'r> for Counted<R>
         let responder = self.0;
         build.merge(responder.respond_to(req)?);
 
-        if let Some((total_count, filtered_count)) = self.1 {
+        if let Some((filtered_count, total_count)) = self.1 {
             build.raw_header("X-Total-Count", total_count.to_string());
             build.raw_header("X-Filtered-Count", filtered_count.to_string());
         }

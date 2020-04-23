@@ -1,4 +1,5 @@
-use toql::query::Query;
+use toql::query::{Query, QueryWith};
+use toql::load::Page;
 use toql::error::Result;
 use toql::query_parser::QueryParser;
 use rocket::FromForm;
@@ -6,13 +7,10 @@ use rocket::http::RawStr;
 use toql::error::ToqlError;
 use rocket::request::FromFormValue;
 use std::ops::Deref;
+use std::fmt;
+use toql::sql::SqlArg;
 
 
-
-/// Wrapper for [Query]
-/// Needed for trait implementation.
-#[derive(Debug)]
-pub struct QueryWrapper (pub toql::query::Query);
 
 /// Struct to hold URL query parameters
 /// 
@@ -31,7 +29,8 @@ pub struct ToqlQuery {
     /// The actual Toql query, like `id, +username, phone_*`
     /// 
     /// Default `Some("*")`
-    pub query: Option<QueryWrapper>,
+    pub query: Option<String>,
+  
     /// The offset to the first record. For example 10 will skip the first 10 records.
     /// 
     /// Default `Some(0)`
@@ -44,46 +43,41 @@ pub struct ToqlQuery {
     /// 
     /// Default `Some(true)`
     pub count: Option<bool>,
+
 }
+
+type ParsedQuery<M> = (Query<M>,Page);
 
 
 impl ToqlQuery {
+    pub fn parse_query<M>(&self) -> Result<Query<M>> {
 
-    pub  fn and(mut self, query:Query) -> Self {
-        let x = self.query.unwrap_or(QueryWrapper(Query::wildcard())).0.parenthesize().and(query);
-        self.query = Some(QueryWrapper(x));
-        self
+        let query = QueryParser::parse::<M>( self.query.as_ref().map_or("*", |q|q.as_str()))?;
+        Ok(query)
     }
 
-}
+   pub fn parse<M>(&self) -> Result<ParsedQuery<M>> {
 
+        let query = self.parse_query()?;
+        let first = self.first.unwrap_or(0);
+        let max = self.max.unwrap_or(10);
+        let page = if self.count.unwrap_or(true) {
+            Page::Counted(first,max )
+        } else {
+            Page::Uncounted(first, max)
+        };
 
-
-impl<'v> FromFormValue<'v> for QueryWrapper {
-    type Error = ToqlError;
-
-    fn from_form_value(form_value: &'v RawStr) -> Result<QueryWrapper> {
-       
-     
-       if form_value.len() == 0 {
-            return Ok(QueryWrapper(Query::wildcard()));  
-       }
-       let url = form_value.url_decode();
-       match  url {
-           Err(err) => Err(ToqlError::EncodingError(err)),
-           Ok(u) =>  {
-                let q = QueryParser::parse(&u)?;
-                Ok(QueryWrapper(q))    
-           }
-       }
-    }
-} 
-
-/// Unwrap on deref
-impl Deref for QueryWrapper {
-    type Target = Query;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
+        Ok((query, page))
     }
 }
+
+
+impl fmt::Display for ToqlQuery {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match &self.query {
+            Some(q) => q.fmt(f),
+            None => write!(f,"*")
+        }
+    }
+}
+ 
