@@ -2,7 +2,7 @@
 use crate::query::ToqlQuery;
 //use crate::query::QueryWrapper;
 
-use toql::query::Query;
+
 
 use toql::sql_mapper_registry::SqlMapperRegistry;
 use toql::load::{Load, Page};
