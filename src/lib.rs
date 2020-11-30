@@ -40,9 +40,10 @@
 pub mod counted;
 pub mod query;
 pub mod error;
+//pub mod cache;
+pub mod prelude;
 
 
-#[macro_export]
 pub mod template;
 
 #[cfg(feature = "mysql")]
@@ -53,3 +54,4 @@ pub use query::ToqlQuery;
 pub use error::Result;
 
 pub use toql; // Reexport
+

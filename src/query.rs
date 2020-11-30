@@ -1,5 +1,5 @@
 use toql::query::Query;
-use toql::load::Page;
+use toql::page::Page;
 use toql::error::Result;
 use toql::query_parser::QueryParser;
 use rocket::FromForm;

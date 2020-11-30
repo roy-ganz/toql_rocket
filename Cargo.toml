@@ -10,10 +10,10 @@ license = "MIT/Apache-2.0"
 repository = "https://github.com/roy-ganz/toql_rocket"
 
 [dependencies]
-toql = { version = "0.1", path = "../toql" }
-#rocket = "0.4.2"
+toql = { version = "0.3", path = "../toql" }
+rocket = "0.4"
 #rocket = { git ="https://github.com/SergioBenitez/Rocket.git"}
-rocket = {path ="../Rocket/core/lib"}
+#rocket = {path ="../Rocket/core/lib"}
 log = "0.4"
 
 [features]
@@ -21,10 +21,10 @@ mysql = [ "toql/mysql15"]
 
 
 [dev-dependencies]
-rocket = { path ="../Rocket/core/lib"}
+#rocket = { path ="../Rocket/core/lib"}
 
-#rocket = "0.4.2" 
-#rocket_contrib =  {version = "0.4.2", default-features = false, features = ["mysql_pool", "json"] }
+rocket = "0.4" 
+rocket_contrib =  {version = "0.4", default-features = false, features = ["mysql_pool", "json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
@@ -32,5 +32,9 @@ serde_json = "1.0"
 name = "crud_mysql"
 path = "examples/crud_mysql/main.rs"
 required-features = ["mysql"]
+
+#[patch.crates-io]
+#polyval = {git = "https://github.com/RustCrypto/universal-hashes"}
+
 
  
