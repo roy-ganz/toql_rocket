@@ -46,8 +46,8 @@ pub mod prelude;
 
 pub mod template;
 
-#[cfg(feature = "mysql")]
-pub mod mysql;
+#[cfg(feature = "mysql14")]
+pub mod mysql14;
 
 pub use counted::Counted;
 pub use query::ToqlQuery;

@@ -34,10 +34,14 @@ pub struct Todo {
 pub fn delete<'a>(id: u64, conn: ExampleDbConnection, cache: State<Cache>) -> Result<Status> {
     
     let ExampleDbConnection(mut c ) = conn;
-    let toql = MySql::from(&mut *c, &*cache);
+    //let mut c1: mysql::Conn = *c;
+    let mut ta : mysql::Transaction = (*c).start_transaction(false, None, None).unwrap();
+    let toql = MySql::from(&mut ta, &*cache);
    
     let affected_rows= toql.delete_one(TodoKey::from(id))?;  // TodoKey is generated from Toql derive
         
+    ta.commit();
+
     if affected_rows == 0 {
         return Ok(Status::NotFound);
     }
@@ -52,8 +56,9 @@ pub fn update(
     conn: ExampleDbConnection,
 ) -> Result<Json<Todo>> {
     
+    let ExampleDbConnection(mut c ) = conn;
     
-    let toql = MySql::from(&mut &*conn, &*cache);
+    let toql = MySql::from(&mut c, &*cache);
   
     let affected_rows = toql.update_one(fields!(Todo, "*"), &todo.into_inner())?; // Consider all possible fields for update, no nested update
     let u = toql.load_one(query!(Todo, "*, id eq ?", id))?;

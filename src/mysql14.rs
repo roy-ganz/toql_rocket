@@ -8,9 +8,7 @@
 
 
 use toql::mysql::error::ToqlMySqlError;
-
-
-
+use toql::error::ToqlError;
 
 
 use std::ops::Deref;
@@ -22,7 +20,7 @@ use std::io::Cursor;
 use crate::bad_request_template;
 
 /// A result with a [`ToqlError`](enum.ToqlError.html)
-//pub type Result<T> = std::result::Result<T, ToqlMySqlErrorWrapper>;
+pub type Result<T> = std::result::Result<T, ToqlMySqlErrorWrapper>;
 
 /// Wrapper for [ToqlError]
 /// Needed for trait implementation.
@@ -34,6 +32,13 @@ impl From<ToqlMySqlError> for ToqlMySqlErrorWrapper{
             ToqlMySqlErrorWrapper(err)
     }
 }
+
+impl From<ToqlError> for ToqlMySqlErrorWrapper{
+        fn from(err: ToqlError) -> ToqlMySqlErrorWrapper {
+            ToqlMySqlErrorWrapper(ToqlMySqlError::ToqlError(err))
+    }
+}
+
 
 
 impl rocket::response::Responder<'static> for ToqlMySqlErrorWrapper {
