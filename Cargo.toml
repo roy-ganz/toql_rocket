@@ -30,8 +30,6 @@ name = "crud_mysql"
 path = "examples/crud_mysql/main.rs"
 required-features = ["mysql14"]
 
-#[patch.crates-io]
-#polyval = {git = "https://github.com/RustCrypto/universal-hashes"}
 
 
  
