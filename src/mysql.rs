@@ -7,7 +7,7 @@
 
 
 
-use toql::mysql::error::ToqlMySqlError;
+use toql_mysql::error::ToqlMySqlError;
 use toql::error::ToqlError;
 
 
