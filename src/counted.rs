@@ -12,9 +12,9 @@ pub struct Counted<R>(pub R, pub Option<(u32, u32)>);
 /// 
 /// The header `X-Total-Count` contains the first value of the tuple in [Counted].
 /// The header `X-Filtered-Count` contains the second value of the tuple in [Counted].
-impl<'r, R: Responder<'r>> Responder<'r> for Counted<R> 
+impl<'r, R: Responder<'r, 'static>> Responder<'r, 'static> for Counted<R> 
 {
-    fn respond_to(self, req: &Request) -> Result<Response<'r>, Status> {
+    fn respond_to(self, req: &'r Request<'_>) -> Result<Response<'static>, Status> {
         let mut build = Response::build();
         let responder = self.0;
         build.merge(responder.respond_to(req)?);
