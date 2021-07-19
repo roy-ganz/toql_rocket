@@ -10,7 +10,8 @@ license = "MIT/Apache-2.0"
 repository = "https://github.com/roy-ganz/toql_rocket"
 
 [dependencies]
-toql = { version = "0.1", path = "../toql" }
+#toql = { version = "0.1", path = "../toql" }
+toql = { git = "https://github.com/roy-ganz/toql", features= ["mysql15"] }
 #rocket = "0.4.2"
 #rocket = { git ="https://github.com/SergioBenitez/Rocket.git"}
 rocket = {path ="../Rocket/core/lib"}
