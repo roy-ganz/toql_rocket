@@ -36,9 +36,9 @@ impl From<ToqlMySqlError> for ToqlMySqlErrorWrapper{
 }
 
 
-impl rocket::response::Responder<'static> for ToqlMySqlErrorWrapper {
+impl<'r> rocket::response::Responder<'r, 'static> for ToqlMySqlErrorWrapper {
 
-    fn respond_to(self, request: &Request) -> std::result::Result<Response<'static>, Status> {
+    fn respond_to(self, request: &'r Request<'_>) -> std::result::Result<Response<'static>, Status> {
         let mut response = Response::new();
       
 
@@ -49,7 +49,8 @@ impl rocket::response::Responder<'static> for ToqlMySqlErrorWrapper {
             ToqlMySqlError::MySqlError(err) => {
                log::info!("{}", err);
                response.set_status(Status::BadRequest);
-               response.set_sized_body(Cursor::new(bad_request_template!(err)));
+               let msg = bad_request_template!(err);
+               response.set_sized_body(msg.len(), Cursor::new(msg));
                Ok(response)
             }
             
