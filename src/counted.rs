@@ -5,7 +5,7 @@ use rocket::response::Responder;
 
 /// Struct that keeps a result with counting information.
 #[derive( Debug)]
-pub struct Counted<R>(pub R, pub Option<(u32, u32)>);
+pub struct Counted<R>(pub R, pub Option<(u64, u64)>);
 
 /// Creates a response and puts the counting information
 /// into the HTTP response headers, if there is some value.
