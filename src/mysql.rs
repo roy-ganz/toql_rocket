@@ -9,6 +9,7 @@ use toql::load::{Load, Page};
 use toql::mysql::mysql::prelude::GenericConnection;
 use toql::mysql::error::ToqlMySqlError;
 
+
 use toql::mysql::error::Result;
 
 use crate::error::ToqlErrorWrapper;
