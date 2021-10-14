@@ -7,15 +7,10 @@
 
 
 
-use toql_mysql_async::error::ToqlMySqlAsyncError;
 use toql::error::ToqlError;
-
-
-use std::ops::Deref;
-use rocket::http::Status;
-use rocket::Response;
-use rocket::Request;
-use std::io::Cursor;
+use toql_mysql_async::error::ToqlMySqlAsyncError;
+use rocket::{Request, Response, http::Status};
+use std::{ops::Deref, io::Cursor};
 
 use crate::bad_request_template;
 
