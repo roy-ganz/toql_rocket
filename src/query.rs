@@ -1,6 +1,6 @@
 use toql::query::Query;
-use toql::load::Page;
-use toql::error::Result;
+use toql::page::Page;
+use toql::result::Result;
 use toql::query_parser::QueryParser;
 use rocket::FromForm;
 use std::fmt;

@@ -1,6 +1,6 @@
 [package]
 name = "toql_rocket"
-version = "0.1.5"
+version = "0.3.0"
 authors = ["Artos <roy.ganz@glanis.biz>"]
 edition = "2018"
 description = "Rocket integration for toql"
@@ -10,28 +10,33 @@ license = "MIT/Apache-2.0"
 repository = "https://github.com/roy-ganz/toql_rocket"
 
 [dependencies]
-toql = { version = "0.1", path = "../toql", features= ["mysql15"] }
-#toql = { git = "https://github.com/roy-ganz/toql", features= ["mysql15"] }
+toql = { git = "https://github.com/roy-ganz/toql"}
+toql_mysql_async = { git = "https://github.com/roy-ganz/toql_mysql_async"}
+rocket = "0.5.0-rc.1"
 #rocket = "0.4.2"
 #rocket = { git ="https://github.com/SergioBenitez/Rocket.git"}
-rocket = {path ="../Rocket/core/lib"}
+#rocket = {path ="../Rocket/core/lib"}
 log = "0.4"
 
 [features]
-mysql = [ "toql/mysql15"]
+mysql = []
 
 
 [dev-dependencies]
-rocket = { path ="../Rocket/core/lib"}
+rocket = "0.5.0-rc.1"
+#rocket = { path ="../Rocket/core/lib"}
 
 #rocket = "0.4.2" 
 #rocket_contrib =  {version = "0.4.2", default-features = false, features = ["mysql_pool", "json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
+
 [[example]]
 name = "crud_mysql"
 path = "examples/crud_mysql/main.rs"
-required-features = ["mysql"]
+required-features = ["mysql14"]
+
+
 
  

@@ -24,9 +24,9 @@ impl From<ToqlError> for ToqlErrorWrapper{
 }
 
 
-impl rocket::response::Responder<'static> for ToqlErrorWrapper {
+impl<'r> rocket::response::Responder<'r, 'static> for ToqlErrorWrapper {
 
-    fn respond_to(self, _: &Request) -> std::result::Result<Response<'static>, Status> {
+    fn respond_to(self, _: &'r Request<'_>) -> std::result::Result<Response<'static>, Status> {
         let mut response = Response::new();
       
         match self.0 {
@@ -37,25 +37,29 @@ impl rocket::response::Responder<'static> for ToqlErrorWrapper {
             ToqlError::SqlBuilderError(err) => {
                 log::info!("{}", err);
                 response.set_status(Status::BadRequest);
-                response.set_sized_body(Cursor::new(bad_request_template!(err)));
+                let msg = bad_request_template!(err);
+                response.set_sized_body(msg.len(), Cursor::new(msg));
                 Ok(response)
             }
               ToqlError::EncodingError(err) => {
                 log::info!("{}", err);
                response.set_status(Status::BadRequest);
-                response.set_sized_body(Cursor::new(bad_request_template!(err)));
+               let msg = bad_request_template!(err);
+                response.set_sized_body(msg.len(), Cursor::new(msg));
                 Ok(response)
              }
              ToqlError::QueryParserError(err) => {
                 log::info!("{}", err);
                 response.set_status(Status::BadRequest);
-                response.set_sized_body(Cursor::new(bad_request_template!(err)));
+                let msg = bad_request_template!(err);
+                response.set_sized_body(msg.len(), Cursor::new(msg));
                 Ok(response)
              }
             ToqlError::NotUnique => {
                 log::info!("No unique result found");
                 response.set_status(Status::BadRequest);
-                response.set_sized_body(Cursor::new(bad_request_template!("no unique record found")));
+                let msg= bad_request_template!("no unique record found");
+                response.set_sized_body(msg.len(),Cursor::new(msg));
                 Ok(response)
             },
             err => {
