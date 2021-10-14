@@ -13,9 +13,6 @@ repository = "https://github.com/roy-ganz/toql_rocket"
 toql = { git = "https://github.com/roy-ganz/toql"}
 toql_mysql_async = { git = "https://github.com/roy-ganz/toql_mysql_async"}
 rocket = "0.5.0-rc.1"
-#rocket = "0.4.2"
-#rocket = { git ="https://github.com/SergioBenitez/Rocket.git"}
-#rocket = {path ="../Rocket/core/lib"}
 log = "0.4"
 
 [features]
@@ -24,10 +21,6 @@ mysql = []
 
 [dev-dependencies]
 rocket = "0.5.0-rc.1"
-#rocket = { path ="../Rocket/core/lib"}
-
-#rocket = "0.4.2" 
-#rocket_contrib =  {version = "0.4.2", default-features = false, features = ["mysql_pool", "json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
