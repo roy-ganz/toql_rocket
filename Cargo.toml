@@ -10,8 +10,8 @@ license = "MIT/Apache-2.0"
 repository = "https://github.com/roy-ganz/toql_rocket"
 
 [dependencies]
-toql = { git = "https://github.com/roy-ganz/toql"}
-toql_mysql_async = { git = "https://github.com/roy-ganz/toql_mysql_async", optional=true}
+toql = { version="0.3", git = "https://github.com/roy-ganz/toql"}
+toql_mysql_async = { version="0.3", git = "https://github.com/roy-ganz/toql_mysql_async", optional=true}
 rocket = "0.5.0-rc.1"
 log = "0.4"
 
