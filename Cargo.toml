@@ -11,12 +11,9 @@ repository = "https://github.com/roy-ganz/toql_rocket"
 
 [dependencies]
 toql = { version="0.3", git = "https://github.com/roy-ganz/toql"}
-toql_mysql_async = { version="0.3", git = "https://github.com/roy-ganz/toql_mysql_async", optional=true}
 rocket = "0.5.0-rc.1"
 log = "0.4"
 
-[features]
-mysql = ["toql_mysql_async"]
 
 
 
