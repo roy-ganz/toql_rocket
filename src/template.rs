@@ -1,4 +1,4 @@
-
+//! A macro to generate a bad request HTML page.
 
  #[macro_export]
  macro_rules! bad_request_template {

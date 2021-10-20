@@ -1,3 +1,4 @@
+//! A struct and responder for page count infromation.
 use rocket::http::Status;
 use rocket::Response;
 use rocket::Request;
@@ -5,13 +6,15 @@ use rocket::response::Responder;
 use toql::prelude::PageCounts;
 
 /// Struct that keeps a result with counting information.
+/// Open the documentation of the Responder trait implementation 
+/// for response headers information.
 #[derive( Debug)]
 pub struct Counted<R>(pub R, pub Option<PageCounts>);
 
 /// Creates a response and puts the counting information
-/// into the HTTP response headers, if there is any.
+/// into HTTP response headers, if there is any.
 /// 
-/// The header `X-Total-Count` contains the title value of the page counts in [Counted].
+/// The header `X-Total-Count` contains the total value of the page counts in [Counted].
 /// The header `X-Filtered-Count` contains the filtered value of the page counts in [Counted].
 impl<'r, R: Responder<'r, 'static>> Responder<'r, 'static> for Counted<R> 
 {

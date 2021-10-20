@@ -1,3 +1,4 @@
+//! Struct to hold URL query parameters
 use toql::query::Query;
 use toql::page::Page;
 use toql::result::Result;
@@ -8,8 +9,6 @@ use std::fmt;
 
 
 
-/// Struct to hold URL query parameters
-/// 
 /// This allows to query entities with optional query parameters.
 /// Ensure that you URL encode your query! 
 /// Instead of `query=*` you must write `query=%2A`.

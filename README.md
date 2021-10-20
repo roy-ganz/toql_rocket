@@ -1,34 +1,42 @@
 # Toql Rocket
 
-### Description
-Use [Toql](https://crates.io/crates/toql) with [Rocket](https://crates.io/crates/rocket). This crate adds:
+Use [Toql](https://crates.io/crates/toql) with [Rocket](https://crates.io/crates/rocket). 
+
+This crate adds:
 
 - Toql URL query parameters
-- HTTP response for Toql errors
-- `load_many()` function that works with URL query parameters
-- Response headers with count information
-
-
-### Resources
-There is a  [CRUD example](https://github.com/roy-ganz/toql_rocket/blob/master/examples/crud_mysql/main.rs) and the [API documentation](https://docs.rs/toql_rocket/0.1).
-
-
-### Installation
+- Response headers with page count information
+- Responder for [ToqlError](toql::prelude::ToqlError)
 
 Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-toql_rocket = { version = "0.1", features= ["mysql"] }
-
+toql_rocket = "0.3"
 ```
 
+Then enjoy some simplifications in  your rocket handlers:
+```rust
+use toql_rocket::prelude::{ToqlQUery, Counted};
+#[get("/?<toql_query..>")]
+pub async fn query(
+    cache: &State<Cache>,
+    mut conn: Connection<TodoDb>,
+    toql_query: ToqlQuery,  //<!-- Get URL parameters with default values
+) -> Result<Counted<Json<Vec<Todo>, MyError>>>  
+{
+    let mut toql = MySqlAsync::from(&mut *conn, &*cache);
+    let (query, page) = toql_query.parse::<Todo>()?; //<!-- Parse into typesafe query
+    let r = toql.load_page(query, page).await?;
 
+    Ok(Counted(Json(r.0), r.1)) //<!-- Put page count information into headers
+}
+```
 
+Check out the full featured [REST server](https://github.com/roy-ganz/todo_rotomy) based on Rocket, Toql and MySQL.
 
 
 ## License
-
 Toql Rocket is distributed under the terms of both the MIT license and the
 Apache License (Version 2.0).
 

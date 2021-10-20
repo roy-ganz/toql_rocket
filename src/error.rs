@@ -1,3 +1,4 @@
+//! Wrapper for [ToqlError](toql::error::ToqlError) that implements [Responder](rocket::response::Responder)
 
 use toql::error::ToqlError;
 use std::ops::Deref;
@@ -9,11 +10,13 @@ use std::io::Cursor;
 use crate::bad_request_template;
 
 
-/// A result with a [`ToqlError`](enum.ToqlError.html)
-pub type Result<T> = std::result::Result<T, ToqlErrorWrapper>;
-
-/// Wrapper for [ToqlError]
-/// Needed for trait implementation.
+/// Wrapper for [ToqlError] to satisfy orphan rule.
+/// This implements a responder for ToqlError. 
+/// It will return 
+/// - 404 for not found
+/// - 400 for parser mistakes
+/// - 500 for internal errors
+/// Newtype needed for orphan rule.
 #[derive(Debug)]
 pub struct ToqlErrorWrapper ( pub ToqlError);
 
